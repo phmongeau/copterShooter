@@ -13,14 +13,16 @@ package
 			super(X, Y);
 			loadGraphic(ImgShip, false, true, 30, 20);
 			bullets = Bullets;
+			
+			drag.y = 400;
 		}
 		
 		override public function update():void
 		{
 			if(FlxG.keys.UP)
-				acceleration.y = -400 - FlxG.elapsed * 3;
+				velocity.y -= 400 * FlxG.elapsed * 3;
 			else
-				acceleration.y = 400 - FlxG.elapsed * 3;
+				velocity.y += 400 * FlxG.elapsed * 3;
 			
 			if(FlxG.keys.justPressed("SPACE")) shoot();
 			super.update();
@@ -28,7 +30,6 @@ package
 		
 		private function shoot():void
 		{
-			FlxG.log("POW");
 			var XVelocity:Number = 300;
 			var YVelocity:Number = 0;
 			for (var i:uint = 0; i< bullets.length; ++i)
