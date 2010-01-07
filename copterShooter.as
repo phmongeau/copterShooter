@@ -10,6 +10,7 @@ package
 		{
 			super(640,480,MenuState,1);
 			showLogo = false;
+			FlxG.debug = true;
 		}
 	}
 }
