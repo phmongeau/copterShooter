@@ -4,7 +4,6 @@ package
 
 	public class PlayState extends FlxState
 	{
-//		[Embed(source = '/data/dirt2.png')] private var ImgWall:Class;
 		
 		public var ship:Ship;
 		
@@ -28,16 +27,8 @@ package
 			ship = new Ship(0, 300, pBullets);
 			this.add(ship);
 			wallTimer = 0;
-			//createWall(50, 100);	
 			//wall array		
 			walls = new Array;
-			/*
-			for (i = 0; i <= 40; ++i)
-			{
-				var w:Wall = new Wall(0, 0, 0, 0, 0);
-				walls.push(this.add(w));							
-			}
-			*/
 		}
 		
 		override public function update():void
@@ -56,6 +47,9 @@ package
 			}
 			else wallTimer += FlxG.elapsed * 12;
 			
+			//Collisions:
+			FlxG.overlapArray(walls, ship, collideWall);
+			
 			super.update();
 		}
 		
@@ -70,23 +64,19 @@ package
 					{
 						walls[i].resetWall(640, 0, 16, height, -5);
 						wallCount = true;
-						FlxG.log("reset");
 					}
 					else
 					{
 						walls[i].resetWall(640, height + size, 16, FlxG.height - height - size, -5);
 						return
-						FlxG.log("reset");
 					}
 				}
 			}
-			FlxG.log("finishedLoop");
 			if(wallCount)
 			{
 				var w:Wall = new Wall(640, height + size, 16, FlxG.height - height - size, -5);
 				w.resetWall(640, height + size, 16, FlxG.height - height - size, -5)
 				walls.push(this.add(w));
-				FlxG.log("create");
 			}
 			else
 			{
@@ -97,8 +87,13 @@ package
 				w = new Wall(640, height + size, 16, FlxG.height - height - size, -5);
 				w.resetWall(640, height + size, 16, FlxG.height - height - size, -5)
 				walls.push(this.add(w));
-				FlxG.log("create");
 			}				
+		}
+		
+		private function collideWall():void
+		{
+			FlxG.switchState(MenuState);
+			FlxG.log("switch to menu")
 		}
 	}
 }
