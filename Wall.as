@@ -5,10 +5,13 @@ package
 	
 	public class Wall extends FlxBlock
 	{
+		[Embed(source = '/data/dirt2.png')] private var ImgWall:Class;
+		
 		public var velocity:Point;
 		public function Wall(X:int, Y:int, Width:int, Height:int, Speed:int):void
 		{
 			super(X, Y, Width, Height);
+			loadGraphic(ImgWall);
 			
 			velocity = new Point();
 			
@@ -33,6 +36,9 @@ package
 			
 			width = Width;
 			height = Height;
+			
+			exists = true;
+			visible = true;
 			
 			velocity.x = Speed;
 		}
