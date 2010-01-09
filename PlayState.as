@@ -11,7 +11,7 @@ package
 		public var walls:Array;
 		public var wallTimer:Number;
 		private var wallHeight:int = 50;
-		private var wallHole:int = 200; 
+		private var wallHolle:int = 200; 
 				
 		public function PlayState()
 		{
@@ -40,17 +40,17 @@ package
 			{
 				//determine if the holle should be lower or higher than the previous one
 				var dir:int = Math.round(Math.random() * 2 - 1);
-				//determine if the hole should be larger or smaller
+				//determine if the Holle should be larger or smaller
 				var sizeChange:int = Math.round(Math.random() * 2 - 1);
 				
 				wallHeight +=  dir * 10;
 				
-				if (wallHole >= 50)
-					wallHole += sizeChange * 10;
-				else
-					wallHole += sizeChange * -10;
+				if (wallHolle >= 50)
+					wallHolle += sizeChange * 10;
+				else if(wallHolle <= 50)
+					wallHolle += sizeChange * -10;
 				//create the wall
-				createWall(wallHeight, wallHole);
+				createWall(wallHeight, wallHolle);
 				//reset the timer
 				wallTimer = 0;
 			}
