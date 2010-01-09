@@ -15,13 +15,15 @@ package
 		
 		override public function update():void
 		{
+			//check if the wall is out of the screen and kill it
 			if (x <= 0 || x >= 640)
 			{
 				kill();
 			}
-
+			
 			super.update();	
 		}
+		//restet function to be able to reuse the bullet
 		public function resetBullet(X:Number, Y:Number, XVelocity:Number, YVelocity:Number):void
 		{
 			x = X;
