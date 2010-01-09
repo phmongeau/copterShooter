@@ -30,6 +30,7 @@ package
 			super.update();
 		}
 		
+		//restet function to be able to reuse the bullet
 		public function resetWall(X:int, Y:int, Width:int, Height:int, Speed:int):void
 		{
 			super.reset(X, Y)
@@ -39,6 +40,8 @@ package
 			
 			exists = true;
 			visible = true;
+			
+			loadGraphic(ImgWall);
 			
 			velocity.x = Speed;
 		}

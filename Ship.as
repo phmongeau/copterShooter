@@ -25,6 +25,7 @@ package
 				velocity.y += 400 * FlxG.elapsed * 3;
 			
 			if(FlxG.keys.justPressed("SPACE")) shoot();
+						
 			super.update();
 		}
 		
