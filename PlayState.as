@@ -4,7 +4,6 @@ package
 
 	public class PlayState extends FlxState
 	{
-		
 		public var ship:Ship;
 		public var pBullets:Array;
 		
@@ -36,19 +35,21 @@ package
 		override public function update():void
 		{
 			//checking the timer and creating a new wall
-			if (wallTimer >= 1 && walls.length <= 50)
+			if (wallTimer >= 1)
 			{
 				//determine if the holle should be lower or higher than the previous one
 				var dir:int = Math.round(Math.random() * 2 - 1);
 				//determine if the Holle should be larger or smaller
 				var sizeChange:int = Math.round(Math.random() * 2 - 1);
 				
-				wallHeight +=  dir * 10;
+				if ((wallHeight + dir * 10) > 0) wallHeight +=  dir * 10;
 				
-				if (wallHolle >= 50)
+				if (wallHolle >= 50 && wallHolle + (sizeChange * 10) + wallHeight < 480)
 					wallHolle += sizeChange * 10;
-				else if(wallHolle <= 50)
+				else if(wallHolle <= 70)
 					wallHolle += sizeChange * -10;
+				
+				if (wallHolle + wallHeight >= 480) FlxG.log("toBig");
 				//create the wall
 				createWall(wallHeight, wallHolle);
 				//reset the timer
@@ -59,7 +60,7 @@ package
 						
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
-			
+						
 			//update
 			super.update();
 		}
@@ -85,6 +86,7 @@ package
 					}
 				}
 			}
+			if (walls.length <= 50)
 			//create the bottome wall if the top wall has been reused
 			if(wallCount)
 			{
@@ -102,7 +104,7 @@ package
 				w = new Wall(640, height + size, 16, FlxG.height - height - size, -5);
 				w.resetWall(640, height + size, 16, FlxG.height - height - size, -5)
 				walls.push(this.add(w));
-			}				
+			}
 		}
 		//switch back to MenuState if the ship touches a wall
 		private function collideWall(w:Wall, s:Ship):void
