@@ -44,12 +44,14 @@ package
 				
 				if ((wallHeight + dir * 10) > 0) wallHeight +=  dir * 10;
 				
-				if (wallHolle >= 50 && wallHolle + (sizeChange * 10) + wallHeight < 480)
+				if (wallHolle + sizeChange * 10 >= 70)
 					wallHolle += sizeChange * 10;
-				else if(wallHolle <= 70)
-					wallHolle += sizeChange * -10;
 				
-				if (wallHolle + wallHeight >= 480) FlxG.log("toBig");
+				if (wallHolle + wallHeight >= 480)
+				{
+					FlxG.log("toBig");
+					wallHolle -= 70;
+				}
 				//create the wall
 				createWall(wallHeight, wallHolle);
 				//reset the timer
