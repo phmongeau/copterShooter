@@ -44,7 +44,7 @@ package
 				
 				if ((wallHeight + dir * 10) > 0) wallHeight +=  dir * 10;
 				
-				if (wallHolle + sizeChange * 10 >= 70)
+				if (wallHolle + sizeChange * 10 >= 90)
 					wallHolle += sizeChange * 10;
 				
 				if (wallHolle + wallHeight >= 480)
