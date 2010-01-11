@@ -23,7 +23,7 @@ package
 			}
 			
 			//creating and adding the ship to the state
-			ship = new Ship(0, 300, pBullets);
+			ship = new Ship(30, 300, pBullets);
 			this.add(ship);
 			
 			//init the wall timer
@@ -49,7 +49,6 @@ package
 				
 				if (wallHolle + wallHeight >= 480)
 				{
-					FlxG.log("toBig");
 					wallHolle -= 70;
 				}
 				//create the wall
@@ -111,7 +110,6 @@ package
 		//switch back to MenuState if the ship touches a wall
 		private function collideWall(w:Wall, s:Ship):void
 		{
-			FlxG.log("switch to menu");
 			FlxG.switchState(MenuState);
 		}
 	}
