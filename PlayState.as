@@ -7,6 +7,12 @@ package
 		public var ship:Ship;
 		public var pBullets:Array;
 		
+		public var dirigibles:Array;
+		public var eBullets:Array;
+		
+		//the height of the middle of the tunnel
+		public var middle:int;
+		
 		public var walls:Array;
 		public var wallTimer:Number;
 		private var wallHeight:int = 50;
@@ -14,18 +20,27 @@ package
 				
 		public function PlayState()
 		{
-			//creating the players bullet array and filling it.
-			pBullets = new Array;			
+			//creating the bullet arrays
+			pBullets = new Array;
+			eBullets = new Array;
+			//creating the dirigibles array
+			dirigibles = new Array;
+			//filling the bullets arrays.
 			for(var i:int = 0; i < 40; ++i)
 			{
 				var b:Bullet = new Bullet(0,0,0,0);
+				var b2:Bullet = new Bullet(0,0,0,0);
 				pBullets.push(this.add(b));
+				eBullets.push(this.add(b2));
 			}
+			//puting a dirigible in the dirigibles array
+			var d:Dirigible = new Dirigible(550, middle, eBullets);
+			dirigibles.push(this.add(d));
 			
 			//creating and adding the ship to the state
 			ship = new Ship(30, 300, pBullets);
 			this.add(ship);
-			
+						
 			//init the wall timer
 			wallTimer = 0;
 			//wall array		
@@ -35,7 +50,7 @@ package
 		override public function update():void
 		{
 			//checking the timer and creating a new wall
-			if (wallTimer >= 1)
+			if (wallTimer >= 0.083)
 			{
 				//determine if the holle should be lower or higher than the previous one
 				var dir:int = Math.round(Math.random() * 2 - 1);
@@ -53,15 +68,30 @@ package
 				}
 				//create the wall
 				createWall(wallHeight, wallHolle);
+				//send the height to ships
+				middle = wallHeight + (wallHolle / 2);
+				for (var i:int = 0; i < dirigibles.length; ++i)
+				{
+					dirigibles[i].holle = [wallHeight, wallHolle];
+				}
+				
 				//reset the timer
 				wallTimer = 0;
 			}
 			//increment the timer
-			else wallTimer += FlxG.elapsed * 12;
+			else wallTimer += FlxG.elapsed;// * 12;
 						
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
-			FlxG.overlapArrays(walls, pBullets, killBulletWall);
+			FlxG.overlapArrays(walls, pBullets, killBulletWall);		
+			
+			//TESTS
+			if (FlxG.keys.justPressed("C"))
+			{
+				var d:Dirigible = new Dirigible(460, middle, eBullets);
+				dirigibles.push(this.add(d));
+			}
+			
 						
 			//update
 			super.update();
