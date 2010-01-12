@@ -61,6 +61,7 @@ package
 						
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
+			FlxG.overlapArrays(walls, pBullets, killBulletWall);
 						
 			//update
 			super.update();
@@ -111,6 +112,11 @@ package
 		private function collideWall(w:Wall, s:Ship):void
 		{
 			FlxG.switchState(MenuState);
+		}
+		
+		private function killBulletWall(w:Wall, b:Bullet):void
+		{
+			b.kill();
 		}
 	}
 }
