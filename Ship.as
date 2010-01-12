@@ -25,6 +25,8 @@ package
 				velocity.y += 400 * FlxG.elapsed * 3;
 			
 			if(FlxG.keys.justPressed("SPACE")) shoot();
+			
+			if (y < 0 || y > 480) FlxG.switchState(MenuState);
 									
 			super.update();
 		}
