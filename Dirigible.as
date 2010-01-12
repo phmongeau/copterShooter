@@ -1,5 +1,6 @@
 package
 {
+//	import flash.geom.Point;
 	import org.flixel.*;
 	
 	public class Dirigible extends FlxSprite
@@ -9,6 +10,8 @@ package
 		private var bullets:Array;
 		
 		public var holle:Array;
+		public var topBumper:FlxCore;
+		public var bottomBumper:FlxCore;
 		
 		public function Dirigible(X:int, Y:int, Bullets:Array):void
 		{
@@ -17,16 +20,35 @@ package
 			bullets = Bullets;
 			drag.y = 400;
 			holle = new Array;
+			topBumper = new FlxCore;
+			topBumper.reset(x + 55, y - 10)
+			bottomBumper = new FlxCore;
+			bottomBumper.reset(x + 55, y + 35)
+			velocity.y = 100;
 		}
 		
 		override public function update():void
 		{
 			//update position
-			y = holle[0] + (holle[1] /2);
+			//y = holle[0] + (holle[1] /2);
+			var middle:int = holle[0] + (holle[1] / 2);
+			topBumper.y = y - holle[1] / 4
+			bottomBumper.y = y + holle[1] / 4;
+			if (y > middle + 10 && y < middle - 10) velocity.y *= 0.7;
 			super.update();
 		}
 		
-		/*
+		public function topCollide(w:Wall, c:FlxCore):void
+		{
+			velocity.y = 100;
+			FlxG.log("top");
+		}
+		public function bottomCollide(w:Wall, c:FlxCore):void
+		{
+			velocity.y = - 100;
+			FlxG.log("bottom");
+		}
+
 		private function shoot():void
 		{
 			var XVelocity:Number = 300;
@@ -44,7 +66,6 @@ package
 			bullet.resetBullet(x + 30, y + 10, XVelocity, YVelocity);
 			bullets.push(FlxG.state.add(bullet));
 		}
-		*/
 
 	}
 }

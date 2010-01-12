@@ -34,7 +34,8 @@ package
 				eBullets.push(this.add(b2));
 			}
 			//puting a dirigible in the dirigibles array
-			var d:Dirigible = new Dirigible(550, middle, eBullets);
+			var d:Dirigible = new Dirigible(550, 240, eBullets);
+			d.kill();
 			dirigibles.push(this.add(d));
 			
 			//creating and adding the ship to the state
@@ -83,7 +84,13 @@ package
 						
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
-			FlxG.overlapArrays(walls, pBullets, killBulletWall);		
+			FlxG.overlapArrays(walls, pBullets, killBulletWall);
+			//dirigibles bumpers:
+			for (i = 0; i < dirigibles.length; ++i)
+			{
+				FlxG.overlapArray(walls, dirigibles[i].topBumper, dirigibles[i].topCollide);
+				FlxG.overlapArray(walls, dirigibles[i].bottomBumper, dirigibles[i].bottomCollide);
+			}
 			
 			//TESTS
 			if (FlxG.keys.justPressed("C"))
