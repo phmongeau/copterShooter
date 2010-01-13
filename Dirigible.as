@@ -62,12 +62,10 @@ package
 		public function topCollide(w:Wall, c:FlxCore):void
 		{
 			velocity.y = 100;
-			FlxG.log("top");
 		}
 		public function bottomCollide(w:Wall, c:FlxCore):void
 		{
 			velocity.y = - 100;
-			FlxG.log("bottom");
 		}
 
 		private function shoot():void

@@ -90,7 +90,6 @@ package
 				d = new Dirigible(posx, middle, eBullets);
 				dirigibles.push(this.add(d));
 				dirTimer = 0;
-				FlxG.log("spawn");
 			}
 			dirTimer += FlxG.elapsed;
 						
