@@ -6,12 +6,15 @@ package
 	public class Dirigible extends FlxSprite
 	{
 		[Embed(source = '/data/dirigible.png')] private var ImgShip:Class;
+		[Embed(source = '/data/explosion.png')] private var ImgExpl:Class;
 		
 		private var bullets:Array;
 		
 		public var holle:Array;
 		public var topBumper:FlxCore;
 		public var bottomBumper:FlxCore;
+		
+		private var e:FlxEmitter;
 		
 		public function Dirigible(X:int, Y:int, Bullets:Array):void
 		{
@@ -25,17 +28,31 @@ package
 			bottomBumper = new FlxCore;
 			bottomBumper.reset(x + 55, y + 35)
 			velocity.y = 100;
+			
+			//paritcles
+			e = new FlxEmitter(0, 0, -0.2);
+			e.setXVelocity(-80, 80);
+			e.setYVelocity(-80, 0);
+			e.createSprites(ImgExpl, 20, true);
+			e.gravity = 0;
+			FlxG.state.add(e);			
 		}
 		
 		override public function update():void
 		{
-			//update position
-			//y = holle[0] + (holle[1] /2);
 			var middle:int = holle[0] + (holle[1] / 2);
 			topBumper.y = y - holle[1] / 4
 			bottomBumper.y = y + holle[1] / 4;
 			if (y > middle + 10 && y < middle - 10) velocity.y *= 0.7;
 			super.update();
+		}
+		
+		override public function kill():void
+		{
+			e.x = x;
+			e.y = y;
+			e.restart();
+			super.kill();
 		}
 		
 		public function topCollide(w:Wall, c:FlxCore):void

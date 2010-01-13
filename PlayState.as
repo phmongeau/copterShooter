@@ -85,6 +85,7 @@ package
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
 			FlxG.overlapArrays(walls, pBullets, killBulletWall);
+			FlxG.overlapArrays(pBullets, dirigibles, killDirigibles);
 			//dirigibles bumpers:
 			for (i = 0; i < dirigibles.length; ++i)
 			{
@@ -154,6 +155,11 @@ package
 		private function killBulletWall(w:Wall, b:Bullet):void
 		{
 			b.kill();
+		}
+		private function killDirigibles(b:Bullet, d:Dirigible):void
+		{
+			b.kill();
+			d.kill();
 		}
 	}
 }
