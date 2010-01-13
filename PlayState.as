@@ -17,7 +17,9 @@ package
 		public var walls:Array;
 		public var wallTimer:Number;
 		private var wallHeight:int = 50;
-		private var wallHolle:int = 200; 
+		private var wallHolle:int = 200;
+		
+		public var playTime:Number = 0;
 				
 		public function PlayState()
 		{
@@ -51,6 +53,8 @@ package
 		
 		override public function update():void
 		{
+			//updating playTime
+			playTime += FlxG.elapsed;
 			//checking the timer and creating a new wall
 			if (wallTimer >= 0.083)
 			{
@@ -61,7 +65,7 @@ package
 				
 				if ((wallHeight + dir * 10) > 0) wallHeight +=  dir * 10;
 				
-				if (wallHolle + sizeChange * 10 >= 90)
+				if (wallHolle + sizeChange * 10 >= 200 - (playTime * 10) && wallHolle + sizeChange * 10 >= 100)
 					wallHolle += sizeChange * 10;
 				
 				if (wallHolle + wallHeight >= 480)
