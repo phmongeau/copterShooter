@@ -1,6 +1,5 @@
 package
 {
-//	import flash.geom.Point;
 	import org.flixel.*;
 	
 	public class Dirigible extends FlxSprite
@@ -44,6 +43,11 @@ package
 			topBumper.y = y - holle[1] / 4
 			bottomBumper.y = y + holle[1] / 4;
 			if (y > middle + 10 && y < middle - 10) velocity.y *= 0.7;
+			
+			if ( y > 480 || y < 0)
+			{
+				kill();
+			}
 			super.update();
 		}
 		

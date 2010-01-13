@@ -9,6 +9,7 @@ package
 		
 		public var dirigibles:Array;
 		public var eBullets:Array;
+		public var dirTimer:Number = 0;
 		
 		//the height of the middle of the tunnel
 		public var middle:int;
@@ -81,6 +82,17 @@ package
 			}
 			//increment the timer
 			else wallTimer += FlxG.elapsed;// * 12;
+			
+			//spawning dirigibles
+			if (wallHolle >= 170 && dirTimer >= 3)
+			{
+				var posx:int = Math.round((Math.random() * 80) + 400);
+				d = new Dirigible(posx, middle, eBullets);
+				dirigibles.push(this.add(d));
+				dirTimer = 0;
+				FlxG.log("spawn");
+			}
+			dirTimer += FlxG.elapsed;
 						
 			//Collisions:
 			FlxG.overlapArray(walls, ship, collideWall);
