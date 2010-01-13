@@ -5,8 +5,12 @@ package
 	public class Ship extends FlxSprite
 	{
 		[Embed(source = '/data/sideShip.png')] private var ImgShip:Class;
+		[Embed(source = '/data/explosion.png')] private var ImgExpl:Class;
 		
 		private var bullets:Array;
+		private var e:FlxEmitter;
+		public var deathTimer:Number = 0;;
+
 		
 		public function Ship(X:int, Y:int, Bullets:Array):void
 		{
@@ -15,6 +19,14 @@ package
 			bullets = Bullets;
 			
 			drag.y = 400;
+			
+			//paritcles
+			e = new FlxEmitter(0, 0, -0.2);
+			e.setXVelocity(-80, 80);
+			e.setYVelocity(-80, 0);
+			e.createSprites(ImgExpl, 20, true);
+			e.gravity = 0;
+			FlxG.state.add(e);
 		}
 		
 		override public function update():void
@@ -29,6 +41,15 @@ package
 			if (y < 0 || y > 480) FlxG.switchState(MenuState);
 									
 			super.update();
+		}
+		
+		override public function kill():void
+		{
+			e.x = x;
+			e.y = y;
+			e.restart();
+			super.kill();
+
 		}
 		
 		private function shoot():void

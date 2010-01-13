@@ -37,7 +37,7 @@ package
 				eBullets.push(this.add(b2));
 			}
 			//puting a dirigible in the dirigibles array
-			var d:Dirigible = new Dirigible(550, 240, eBullets);
+			var d:Dirigible = new Dirigible(550, 240, eBullets, ship);
 			dirigibles.push(d);
 			
 			//creating and adding the ship to the state
@@ -80,6 +80,15 @@ package
 					dirigibles[i].holle = [wallHeight, wallHolle];
 				}
 				
+				//check if ship.dead
+				if (ship.dead)
+				{
+					ship.deathTimer += FlxG.elapsed * 6;
+					if (ship.deathTimer >= 1)
+						FlxG.switchState(MenuState);
+					else FlxG.log(ship.deathTimer.toString());
+				}
+				
 				//reset the timer
 				wallTimer = 0;
 			}
@@ -90,7 +99,7 @@ package
 			if (wallHolle >= 170 && dirTimer >= 3)
 			{
 				var posx:int = Math.round((Math.random() * 80) + 400);
-				d = new Dirigible(posx, middle, eBullets);
+				d = new Dirigible(posx, middle, eBullets, ship);
 				dirigibles.push(this.add(d));
 				dirTimer = 0;
 			}
@@ -100,6 +109,7 @@ package
 			FlxG.overlapArray(walls, ship, collideWall);
 			FlxG.overlapArrays(walls, pBullets, killBulletWall);
 			FlxG.overlapArrays(pBullets, dirigibles, killDirigibles);
+			FlxG.overlapArray(eBullets, ship, killShip);
 			//dirigibles bumpers:
 			for (i = 0; i < dirigibles.length; ++i)
 			{
@@ -110,7 +120,7 @@ package
 			//TESTS
 			if (FlxG.keys.justPressed("C"))
 			{
-				var d:Dirigible = new Dirigible(460, middle, eBullets);
+				var d:Dirigible = new Dirigible(460, middle, eBullets, ship);
 				dirigibles.push(this.add(d));
 			}
 			
@@ -163,7 +173,7 @@ package
 		//switch back to MenuState if the ship touches a wall
 		private function collideWall(w:Wall, s:Ship):void
 		{
-			FlxG.switchState(MenuState);
+			s.kill();
 		}
 		
 		private function killBulletWall(w:Wall, b:Bullet):void
@@ -174,6 +184,11 @@ package
 		{
 			b.kill();
 			d.kill();
+		}
+		private function killShip(b:Bullet, s:Ship):void
+		{
+			b.kill();
+			s.kill();
 		}
 	}
 }
