@@ -38,8 +38,7 @@ package
 			}
 			//puting a dirigible in the dirigibles array
 			var d:Dirigible = new Dirigible(550, 240, eBullets);
-			d.kill();
-			dirigibles.push(this.add(d));
+			dirigibles.push(d);
 			
 			//creating and adding the ship to the state
 			ship = new Ship(30, 300, pBullets);

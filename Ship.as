@@ -20,9 +20,9 @@ package
 		override public function update():void
 		{			
 			if(FlxG.keys.UP)
-				velocity.y -= 400 * FlxG.elapsed * 3;
+				velocity.y -= 390 * FlxG.elapsed * 3;
 			else
-				velocity.y += 400 * FlxG.elapsed * 3;
+				velocity.y += 390 * FlxG.elapsed * 3;
 			
 			if(FlxG.keys.justPressed("SPACE")) shoot();
 			
