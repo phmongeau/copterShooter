@@ -18,6 +18,8 @@ package
 		public var wallTimer:Number;
 		private var wallHeight:int = 50;
 		private var wallHolle:int = 200;
+		private var branchCount:int = 0;
+		private var branchHeight:int = 16;
 		
 		public var playTime:Number = 0;
 				
@@ -71,8 +73,17 @@ package
 				{
 					wallHolle -= 70;
 				}
-				//create the wall
-				createWall(wallHeight, wallHolle);
+				if (FlxG.keys.X)
+				{
+					branch(wallHeight, wallHolle);
+				}
+				else
+				{
+					//create the wall
+					createWall(wallHeight, wallHolle);
+					branchCount = 0;
+				}
+
 				//send the height to ships
 				middle = wallHeight + (wallHolle / 2);
 				for (var i:int = 0; i < dirigibles.length; ++i)
@@ -96,13 +107,13 @@ package
 			else wallTimer += FlxG.elapsed;// * 12;
 			
 			//spawning dirigibles
-			if (wallHolle >= 170 && dirTimer >= 3)
+			/*if (wallHolle >= 170 && dirTimer >= 3)
 			{
 				var posx:int = Math.round((Math.random() * 80) + 400);
 				d = new Dirigible(posx, middle, eBullets, ship);
 				dirigibles.push(this.add(d));
 				dirTimer = 0;
-			}
+			}*/
 			dirTimer += FlxG.elapsed;
 						
 			//Collisions:
@@ -150,7 +161,6 @@ package
 					}
 				}
 			}
-			if (walls.length <= 50)
 			//create the bottome wall if the top wall has been reused
 			if(wallCount)
 			{
@@ -170,6 +180,37 @@ package
 				walls.push(this.add(w));
 			}
 		}
+		private function branch(height:int, size:int):void
+		{
+			if (branchCount < 21)
+			{
+				createWall(height, size);
+				var w:Wall = new Wall(640, height + (size/2) - (32/2), 16, branchHeight, -5);
+				w.resetWall(640, height + (size/2) - (32/2), 16, branchHeight + branchCount, -5);
+				walls.push(this.add(w));
+			}
+			else if (branchCount < 42)
+			{
+				if (ship.y < height + (size/2))
+				{
+					w = new Wall(640, height + size + (branchCount * 2), 16, branchHeight, -5);
+					w.resetWall(640, height + (size/2) + (branchCount * 2), 16, branchHeight + (branchCount * 2), -5);
+					walls.push(this.add(w));
+				}
+				else
+				{
+					w = new Wall(640, height + size + (branchCount * 2), 16, branchHeight, -5);
+					w.resetWall(640, height + (size/(branchCount*2)), 16, branchHeight + branchCount, -5);
+					walls.push(this.add(w));
+				}
+					
+				createWall(height, size);
+			}
+			else if (branchCount >= 42)
+				createWall(height, size);
+			++branchCount;
+		}
+		
 		//switch back to MenuState if the ship touches a wall
 		private function collideWall(w:Wall, s:Ship):void
 		{
